@@ -1686,3 +1686,506 @@ cherry
 
 无论是使用 for 循环还是自己手动实现迭代器，遍历List的基本思路都是相同的：逐个访问List中的元素，并在需要时执行适当的操作。
 
+### 在List中添加元素
+
+在Python的List中，添加元素的方法有以下几种：
+
+* append() 方法：在List的末尾添加一个元素。
+* extend() 方法：将一个可迭代对象中的所有元素逐个添加到List的末尾。
+* insert() 方法：在指定的位置插入一个元素。
+
+下面我们通过例子来演示每种添加元素的方法：
+
+* append() 方法
+
+```python
+fruits = ["apple", "banana", "cherry"]
+fruits.append("orange")
+print(fruits)
+```
+
+输出：
+
+```css
+['apple', 'banana', 'cherry', 'orange']
+```
+
+在这个示例中，我们使用 append() 方法在List的末尾添加了一个元素 "orange"。
+
+* extend() 方法
+
+```python
+fruits = ["apple", "banana", "cherry"]
+more_fruits = ["orange", "mango", "grape"]
+fruits.extend(more_fruits)
+print(fruits)
+```
+
+输出：
+
+```css
+['apple', 'banana', 'cherry', 'orange', 'mango', 'grape']
+```
+
+在这个示例中，我们使用 extend() 方法将一个List more_fruits 中的所有元素逐个添加到了List fruits 的末尾。
+
+* insert() 方法
+
+```python
+fruits = ["apple", "banana", "cherry"]
+fruits.insert(1, "orange")
+print(fruits)
+```
+
+输出：
+
+```python
+['apple', 'orange', 'banana', 'cherry']
+```
+
+在这个示例中，我们使用 insert() 方法在索引值为 1 的位置插入了一个元素 "orange"。
+
+需要注意的是，List中的元素可以是任何Python对象，包括List本身。因此，在使用 extend() 方法时，可以将多个List合并成一个大的List，形成嵌套List的数据结构。
+
+### 在List中删除元素
+
+在Python的List中，删除元素的方法有以下几种：
+
+* pop() 方法：删除指定索引位置的元素，并返回被删除的元素。
+* remove() 方法：删除List中指定的元素。
+* clear() 方法：清空List中的所有元素。
+* del 关键字：删除List中指定索引位置的元素，或删除整个List。
+
+下面我们通过例子来演示每种删除元素的方法：
+
+* pop() 方法
+
+```python
+fruits = ["apple", "banana", "cherry"]
+popped_fruit = fruits.pop(1)
+print(fruits)
+print(popped_fruit)
+```
+
+输出：
+
+```css
+['apple', 'cherry']
+banana
+```
+
+在这个示例中，我们使用 pop() 方法删除了索引值为 1 的元素 "banana"，并将被删除的元素赋值给了变量 popped_fruit。需要注意的是，pop() 方法不仅可以删除List的末尾元素，还可以删除List中任意位置的元素。
+
+* remove() 方法
+
+```python
+fruits = ["apple", "banana", "cherry"]
+fruits.remove("banana")
+print(fruits)
+```
+
+输出：
+
+```python
+['apple', 'cherry']
+```
+
+在这个示例中，我们使用 remove() 方法删除了List中的元素 "banana"。
+
+需要注意的是，如果要删除的元素在List中出现了多次，remove() 方法只会删除第一次出现的元素。
+
+* clear() 方法
+
+```python
+fruits = ["apple", "banana", "cherry"]
+fruits.clear()
+print(fruits)
+```
+
+输出：
+
+```python
+[]
+```
+
+在这个示例中，我们使用 clear() 方法清空了List中的所有元素。
+
+* del 关键字
+
+```python
+fruits = ["apple", "banana", "cherry"]
+del fruits[1]
+print(fruits)
+
+del fruits
+print(fruits)
+```
+
+输出：
+
+```python
+['apple', 'cherry']
+NameError: name 'fruits' is not defined
+```
+
+在这个示例中，我们使用 del 关键字删除了List中的索引值为 1 的元素 "banana"，然后使用 del 关键字删除了整个List fruits。
+
+需要注意的是，在使用 del 关键字删除整个List时，删除后就无法再访问该List了，因此在尝试访问该List时会引发 NameError 异常。
+
+### List中查找元素
+
+在Python的List中，查找元素的方法有以下几种：
+
+* index() 方法：返回指定元素第一次出现的索引值。
+* count() 方法：返回指定元素在List中出现的次数。
+
+下面我们通过例子来演示每种查找元素的方法：
+
+* index() 方法
+
+```python
+fruits = ["apple", "banana", "cherry", "banana"]
+banana_index = fruits.index("banana")
+print(banana_index)
+```
+
+输出：
+
+```
+1
+```
+
+在这个示例中，我们使用 index() 方法查找元素 "banana" 在List fruits 中第一次出现的索引值。需要注意的是，如果要查找的元素在List中不存在，index() 方法会引发 ValueError 异常。
+
+* count() 方法
+
+```python
+fruits = ["apple", "banana", "cherry", "banana"]
+banana_count = fruits.count("banana")
+print(banana_count)
+```
+
+输出：
+
+```
+2
+```
+
+在这个示例中，我们使用 count() 方法统计元素 "banana" 在List fruits 中出现的次数。如果要查找的元素在List中不存在，count() 方法会返回 0。
+
+### List排序
+
+在Python中，List排序的方法有以下几种：
+
+* sort() 方法：用于对List进行就地排序，即对原始的List进行修改。
+* sorted() 函数：用于对List进行排序并返回一个新的List，不会改变原始的List。
+* reverse() 方法：用于将List中的元素反转。
+
+下面我们通过例子来演示每种排序方法：
+
+* sort() 方法
+
+```python
+fruits = ["banana", "apple", "cherry", "kiwi"]
+fruits.sort()
+print(fruits)
+```
+
+输出：
+
+```css
+['apple', 'banana', 'cherry', 'kiwi']
+```
+
+在这个示例中，我们使用 sort() 方法对List fruits 进行就地排序。需要注意的是，该方法会修改原始的List，并且默认是按照字母表顺序升序排序的。如果要进行降序排序，可以传递 reverse=True 参数。
+
+* sorted() 函数
+
+```python
+fruits = ["banana", "apple", "cherry", "kiwi"]
+sorted_fruits = sorted(fruits)
+print(sorted_fruits)
+print(fruits)
+```
+
+输出：
+
+```css
+['apple', 'banana', 'cherry', 'kiwi']
+['banana', 'apple', 'cherry', 'kiwi']
+```
+
+在这个示例中，我们使用 sorted() 函数对List fruits 进行排序，并将排序后的新List赋值给变量 sorted_fruits。需要注意的是，该函数不会修改原始的List，并且默认是按照字母表顺序升序排序的。如果要进行降序排序，可以传递 reverse=True 参数。
+
+* reverse() 方法
+
+```python
+fruits = ["banana", "apple", "cherry", "kiwi"]
+fruits.reverse()
+print(fruits)
+```
+
+输出：
+
+```css
+['kiwi', 'cherry', 'apple', 'banana']
+```
+
+在这个示例中，我们使用 reverse() 方法将List fruits 中的元素反转。需要注意的是，该方法会修改原始的List，并且不会进行排序。
+
+### Lambda表达式
+
+Lambda函数是Python中的一种匿名函数，它可以在一行代码中定义函数，并将其作为变量传递、返回或存储。
+
+Lambda函数的基本语法如下：
+
+```python
+lambda arguments: expression
+```
+
+其中，arguments 表示函数的参数，可以是一个或多个，用逗号分隔；expression 表示函数的返回值。
+
+下面我们通过几个例子来演示Lambda函数的用法：
+
+```python
+# 使用Lambda函数计算两个数的和
+add = lambda x, y: x + y
+print(add(2, 3))  # 5
+
+# 使用Lambda函数将字符串转换为大写
+upper = lambda s: s.upper()
+print(upper("hello"))  # HELLO
+
+# 使用Lambda函数过滤List中的偶数
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+evens = list(filter(lambda x: x % 2 == 0, numbers))
+print(evens)  # [2, 4, 6, 8]
+
+# 使用Lambda函数对List中的元素进行排序
+fruits = ["banana", "apple", "cherry", "kiwi"]
+sorted_fruits = sorted(fruits, key=lambda x: len(x))
+print(sorted_fruits)  # ['kiwi', 'apple', 'banana', 'cherry']
+```
+
+在这些例子中，我们使用Lambda函数分别定义了计算两个数的和、将字符串转换为大写、过滤List中的偶数和对List中的元素进行排序等操作。需要注意的是，在上面的例子中，Lambda函数通常用于一次性的小规模操作，对于复杂的函数，最好还是使用普通的函数定义。
+
+### Map函数
+
+在Python中，map()函数是一种内置函数，它可以对一个可迭代对象中的每个元素应用一个给定的函数，返回一个新的可迭代对象，其中包含应用了该函数后的所有元素。
+
+map()函数的基本语法如下：
+
+```python
+map(function, iterable, ...)
+```
+
+其中，function 表示要应用的函数，iterable 表示可迭代对象，可以是一个或多个，用逗号分隔。map()函数会返回一个新的迭代器，其中包含了将 function 应用到每个元素上的结果。
+
+下面是一个简单的例子，演示如何使用map()函数将一个List中的所有元素乘以2：
+
+```python
+numbers = [1, 2, 3, 4, 5]
+doubled_numbers = list(map(lambda x: x * 2, numbers))
+print(doubled_numbers)  # [2, 4, 6, 8, 10]
+```
+
+在这个例子中，我们使用map()函数和一个Lambda函数将List numbers 中的每个元素都乘以2，并将结果存储在 doubled_numbers 中。
+
+map()函数也可以同时应用多个可迭代对象和函数，例如：
+
+```python
+def add(x, y):
+    return x + y
+
+numbers1 = [1, 2, 3, 4, 5]
+numbers2 = [10, 20, 30, 40, 50]
+sums = list(map(add, numbers1, numbers2))
+print(sums)  # [11, 22, 33, 44, 55]
+```
+
+在这个例子中，我们定义了一个add()函数，然后使用map()函数将这个函数应用到两个List numbers1 和 numbers2 中的相应元素上，并将结果存储在 sums 中。
+
+需要注意的是，map()函数返回的是一个迭代器，如果需要将结果存储在List中，需要使用 list() 函数将其转换为List。同时，由于 map()函数的返回值是一个迭代器，因此可以用于处理大量数据，减少内存占用。
+
+### Filter函数
+
+在Python中，filter()函数是一种内置函数，它用于过滤一个可迭代对象中的元素，只保留符合指定条件的元素，并返回一个新的可迭代对象。filter()函数的基本语法如下：
+
+```python
+filter(function, iterable)
+```
+
+其中，function 表示过滤条件的函数，iterable 表示可迭代对象。filter()函数会将 function 应用到 iterable 中的每个元素上，只保留符合条件的元素，并返回一个新的迭代器。
+
+下面是一个简单的例子，演示如何使用filter()函数将一个List中的所有偶数过滤出来：
+
+```python
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+even_numbers = list(filter(lambda x: x % 2 == 0, numbers))
+print(even_numbers)  # [2, 4, 6, 8, 10]
+```
+
+在这个例子中，我们使用filter()函数和一个Lambda函数将List numbers 中的所有偶数过滤出来，并将结果存储在 even_numbers 中。
+
+filter()函数的返回值也是一个迭代器，因此需要使用 list() 函数将其转换为List。
+
+需要注意的是，filter()函数的过滤条件是一个函数，这个函数应该返回一个bool值，表示元素是否符合条件。如果返回值为True，表示符合条件，该元素将被保留。如果返回值为False，表示不符合条件，该元素将被过滤掉。
+
+### List推导式
+
+在Python中，列表推导式（List Comprehensions）是一种简洁而强大的语法，用于快速构建List。它可以将一些繁琐的操作简化为一行代码，并使代码更加可读。
+
+列表推导式的基本语法如下：
+
+```python
+new_list = [expression for item in iterable if condition]
+```
+
+其中，iterable 是一个可迭代对象，例如List、Tuple、字符串等，item 表示 iterable 中的每个元素，expression 是一个表达式，用于对 item 进行操作，生成新的值。if 关键字用于过滤元素，只有符合条件的元素才会被包含在新的List中。
+
+下面是一个简单的例子，演示如何使用列表推导式将一个List中的所有偶数平方后生成一个新的List：
+
+```python
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+squares = [x ** 2 for x in numbers if x % 2 == 0]
+print(squares)  # [4, 16, 36, 64, 100]
+```
+
+在这个例子中，我们使用列表推导式对List numbers 中的所有偶数进行平方运算，并将结果存储在 squares 中。列表推导式中的 x ** 2 表达式表示对每个元素进行平方运算，if x % 2 == 0 表示只对偶数进行操作。
+
+需要注意的是，列表推导式和普通循环语句的功能是相同的，但是它更加简洁、可读性更高，并且通常比传统的循环语句更加高效。列表推导式也可以嵌套使用，用于处理更加复杂的数据结构。
+
+### zip函数
+
+在Python中，zip函数是一种用于并行迭代多个序列的函数，它将两个或多个序列“压缩”到一个元组的列表中。
+
+zip函数的基本语法如下：
+
+```python
+zip(*iterables)
+```
+
+其中，iterables 是一个或多个可迭代对象，例如List、Tuple、字符串等。* 符号用于将多个可迭代对象解压缩成单个参数传递给zip函数。
+
+下面是一个简单的例子，演示如何使用zip函数将两个List合并为一个List：
+
+```python
+names = ['Alice', 'Bob', 'Charlie']
+ages = [25, 30, 35]
+
+people = list(zip(names, ages))
+print(people)  # [('Alice', 25), ('Bob', 30), ('Charlie', 35)]
+```
+
+在这个例子中，我们使用zip函数将 names 和 ages 两个List合并成一个新的List people。zip函数会将每个List中的元素按照位置进行配对，然后将配对后的元素组成一个元组，最后将所有元组组成一个新的List。
+
+需要注意的是，如果输入的序列长度不同，则zip函数会将结果列表截断为最短的序列长度。同时，zip函数返回的是一个迭代器对象，因此需要使用list函数将其转换为List类型。除了将多个List合并之外，zip函数还可以与其他Python内置函数和模块一起使用，例如enumerate和sorted等，用于更加高效地操作和处理数据。
+
+### 堆栈Stacks
+
+在Python中，栈（stack）是一种先进后出（Last-In-First-Out，LIFO）的数据结构，通常用于实现具有“撤销”操作的应用程序或者语言解析器等。
+
+Python中可以使用List数据类型来实现栈结构，因为List提供了append和pop两个方法，分别用于在列表的末尾添加元素和删除最后一个元素。
+
+下面是一个简单的例子，演示如何使用List实现一个栈：
+
+```python
+stack = []
+
+# Pushing elements onto the stack
+stack.append(10)
+stack.append(20)
+stack.append(30)
+
+# Popping elements from the stack
+print(stack.pop())  # 30
+print(stack.pop())  # 20
+print(stack.pop())  # 10
+
+# Check if the stack is empty
+if not stack:
+    print("Stack is empty")
+```
+
+在这个例子中，我们首先定义一个空的List作为栈，然后使用append方法将元素10、20和30压入栈中。接着，我们使用pop方法从栈中依次弹出元素，直到栈变为空为止。最后，我们使用if语句检查栈是否为空，如果为空则输出一条信息。
+
+需要注意的是，使用List实现栈时需要注意保证栈中元素的顺序，因为List本身并不会强制执行LIFO的顺序，这需要我们在使用栈时自己控制。另外，如果需要实现更加高级的栈结构，可以考虑使用Python内置的deque（双端队列）数据类型，它提供了更高效的操作和更好的线程安全性能。
+
+### 队列（Queues）
+
+在Python中，队列（queue）是一种先进先出（First-In-First-Out，FIFO）的数据结构，通常用于多线程或异步编程等场景中，例如在消息传递或任务调度时。
+
+Python内置了queue模块，其中提供了多种队列实现，包括FIFOQueue、LifoQueue、PriorityQueue和SimpleQueue等。这些队列的使用方式基本相同，我们以FIFOQueue为例来演示。
+
+下面是一个简单的例子，演示如何使用FIFOQueue实现一个队列：
+
+```python
+from queue import FIFOQueue
+
+# Creating a queue
+q = FIFOQueue()
+
+# Adding elements to the queue
+q.put(10)
+q.put(20)
+q.put(30)
+
+# Removing elements from the queue
+print(q.get())  # 10
+print(q.get())  # 20
+print(q.get())  # 30
+
+# Check if the queue is empty
+if q.empty():
+    print("Queue is empty")
+```
+
+在这个例子中，我们首先通过from queue import FIFOQueue语句导入FIFOQueue类，然后创建一个空的队列q。接着，我们使用put方法将元素10、20和30依次添加到队列中。最后，我们使用get方法从队列中依次获取元素，直到队列变为空为止。如果需要检查队列是否为空，可以使用empty方法。
+
+需要注意的是，FIFOQueue、LifoQueue和PriorityQueue等队列都是线程安全的，可以在多线程环境下使用。另外，由于队列是一种常用的数据结构，Python在标准库中提供了多种实现方式，包括multiprocessing模块中的Queue、asyncio模块中的Queue等，可以根据具体的应用场景选择合适的实现方式。
+
+### 元组（tuple）
+
+在Python中，元组（tuple）是一种不可变的序列（sequence），即元组中的元素不可修改。元组与列表（list）非常相似，但是它们有一些重要的区别，主要有以下几个方面：
+
+* 元组用小括号（()）来表示，而列表用方括号（[]）来表示；
+* 元组是不可变的，即不能修改元素的值，而列表是可变的，即可以修改元素的值；
+* 元组不支持增删改操作，而列表支持增删改操作；
+* 元组的访问速度比列表快，因为元组的大小和内容在创建后就不能改变，因此Python可以在创建元组时直接分配一块固定大小的内存来存储元组，而列表则需要在运行时动态分配内存。
+
+下面是一些基本的操作示例：
+
+```python
+# 创建元组
+t = (1, 2, 3)
+print(t)  # (1, 2, 3)
+
+# 访问元组中的元素
+print(t[0])  # 1
+
+# 元组不支持修改元素的值
+# t[0] = 4  # TypeError: 'tuple' object does not support item assignment
+
+# 元组支持切片操作
+print(t[1:])  # (2, 3)
+
+# 元组支持连接操作和重复操作
+t1 = (4, 5)
+print(t + t1)  # (1, 2, 3, 4, 5)
+print(t1 * 3)  # (4, 5, 4, 5, 4, 5)
+```
+
+需要注意的是，如果元组中只有一个元素，那么在创建元组时需要在元素后面加上一个逗号，否则Python会将这个元素视为一个普通的值而不是元组。例如：
+
+```python
+# 创建只有一个元素的元组
+t2 = (1,)
+print(t2)  # (1)
+
+# 错误的创建方法
+t3 = (1)
+print(t3)  # 1
+```
+
+元组虽然不支持修改操作，但是可以通过一些方式来修改元组。例如，可以使用切片和连接操作来创建一个新的元组，也可以将元组转换成列表，修改列表中的元素，然后再将列表转换回元组。这些操作都不会修改原来的元组，而是创建了一个新的元组。
+
