@@ -1301,3 +1301,388 @@ while True:
 
 需要注意的是，如果在循环内部忘记使用break语句来退出循环，程序将一直运行下去，直到被强制终止。因此，在编写无限循环时，一定要确保程序可以在某个时刻被终止。例如，上面的示例中使用了一个特殊字符"q"来终止循环。如果用户输入了该字符，程序将立即退出循环。
 
+## 函数
+
+### 定义函数
+
+函数是一段完成特定任务的可重复使用的代码块。它接收一些输入（称为参数），根据这些输入执行一些操作，并返回一些输出。函数的主要目的是将代码分解成小块，以便更容易维护和复用。
+
+在Python中，可以使用def关键字定义函数。函数定义的一般语法如下：
+
+```python
+def function_name(parameters):
+    """
+    Docstring: An optional docstring to describe the function.
+    """
+    # Function body: statements that perform the task of the function.
+    # The body can contain one or more return statements.
+    return [expression]
+```
+
+其中，function_name是函数的名称，parameters是函数的参数列表（可以为空），Docstring是可选的文档字符串，用于描述函数的功能和参数，return语句是可选的，用于返回函数的输出（可以是一个值或一个序列）。
+
+以下是一个简单的函数定义示例，该函数接收两个参数并返回它们的和：
+
+```python
+def add_numbers(a, b):
+    """
+    This function adds two numbers and returns the result.
+    """
+    result = a + b
+    return result
+```
+
+在上面的代码中，我们定义了一个名为add_numbers的函数，该函数接收两个参数a和b，并将它们相加。函数体包含一条return语句，用于返回计算结果。
+
+可以通过调用函数来使用它。函数的调用语法如下：
+
+```python
+result = function_name(arguments)
+```
+
+其中，function_name是函数的名称，arguments是函数的参数列表，result是函数的返回值。
+
+以下是一个示例代码，调用了上面定义的add_numbers函数：
+
+```python
+# Call the function and pass in two arguments
+x = 5
+y = 7
+z = add_numbers(x, y)
+print("The sum of", x, "and", y, "is", z)
+```
+
+在上面的代码中，我们定义了两个变量x和y，并将它们作为参数传递给add_numbers函数。该函数将它们相加，并将结果赋值给变量z。最后，我们使用print函数输出结果到屏幕上。
+
+函数是Python编程中非常重要的概念，因为它们可以将程序分解成小的、可维护的部分，并且可以被多次调用和重用。
+
+### 函数参数
+
+在Python中，函数参数分为两种：位置参数和关键字参数。位置参数是指按照函数定义中参数的顺序传递参数值的方式，而关键字参数是指通过参数名来指定参数值的方式。
+
+以下是一个简单的函数定义示例，该函数接收两个位置参数和一个关键字参数：
+
+```python
+def greet(name, message, times=1):
+    """
+    This function greets the person with the given name and message,
+    and repeats the message for the given number of times.
+    """
+    print("Hello,", name + "!")
+    for i in range(times):
+        print(message)
+```
+
+在上面的代码中，函数greet接收三个参数，其中name和message是位置参数，times是关键字参数，并设置了一个默认值1。在函数体内，我们使用print语句和for循环来输出问候语。
+
+可以通过以下两种方式调用函数greet：
+
+```python
+# Call the function using positional arguments
+greet("Alice", "How are you?", 3)
+
+# Call the function using keyword arguments
+greet(name="Bob", message="Nice to meet you!")
+```
+
+在第一个函数调用中，我们使用位置参数将值"ALice"和"How are you?"分别传递给参数name和message，同时将值3传递给参数times。
+
+在第二个函数调用中，我们使用关键字参数将值"Bob"和"Nice to meet you!"分别传递给参数name和message。由于我们没有传递times参数的值，因此它将使用默认值1。
+
+除了位置参数和关键字参数之外，Python还支持接受任意数量的位置参数和关键字参数的函数。这可以通过使用星号（*）和双星号（**）语法来实现。例如：
+
+```python
+def foo(*args, **kwargs):
+    """
+    This function accepts any number of positional and keyword arguments.
+    """
+    print("Positional arguments:")
+    for arg in args:
+        print(arg)
+    print("Keyword arguments:")
+    for key, value in kwargs.items():
+        print(key, ":", value)
+```
+
+在上面的代码中，我们定义了一个名为foo的函数，它使用星号和双星号语法来接受任意数量的位置参数和关键字参数。在函数体内，我们使用for循环和items方法来遍历并输出这些参数。
+
+可以通过以下方式调用函数foo：
+
+```python
+# Call the function with multiple positional arguments
+foo(1, "two", 3.0, four="4", five="5")
+
+# Call the function with multiple keyword arguments
+foo(a="A", b="B", c="C")
+```
+
+在第一个函数调用中，我们传递了四个位置参数和两个关键字参数。在函数体内，我们使用for循环和items方法来分别遍历并输出这些参数。
+
+在第二个函数调用中，我们传递了三个关键字参数，但没有传递任何位置参数。在函数体内，我们仅使用items方法来遍历并输出这些参数。
+
+### 函数类型（补充）
+
+Python中描述函数可以从参数及返回值来看，分为以下几类：
+
+* 普通函数（无默认值参数）：最简单的一类函数，只有必需的参数，不带默认值。例如：
+
+```python
+def add(a, b):
+    return a + b
+```
+
+* 带默认值参数的函数：带有默认值参数的函数可以在不传递参数值的情况下使用默认值。例如：
+
+```python
+def greet(name, message="Hello"):
+    print(message + ", " + name + "!")
+```
+
+在这个例子中，message是带有默认值参数的函数。如果我们只传递一个参数值，那么函数将使用默认值"Hello"。
+
+* 可变数量参数函数：这种函数可以接受任意数量的参数。Python提供了两种方法来定义这种类型的函数：
+  * 带星号参数的函数：在参数列表中使用单个星号（*）表示接受任意数量的位置参数。例如：
+
+```python
+def sum(*args):
+    total = 0
+    for arg in args:
+        total += arg
+    return total
+```
+
+    在这个例子中，函数sum接受任意数量的位置参数，并返回这些参数的总和。
+  * 带双星号参数的函数：在参数列表中使用双星号（**）表示接受任意数量的关键字参数。例如：
+
+```python
+def print_values(**kwargs):
+    for key, value in kwargs.items():
+        print(key, "=", value)
+```
+    在这个例子中，函数print_values接受任意数量的关键字参数，并输出这些参数的名称和值。
+  * 匿名函数（lambda函数）：lambda函数是一种匿名函数，没有函数名，通常用于简单的操作。例如：
+
+```python
+# 使用lambda函数定义一个平方函数
+square = lambda x: x ** 2
+```
+
+## 数据结构
+
+### 列表(List)
+
+Python的List是一种有序的数据集合，它可以包含任意类型的数据，包括其他List。List的特点是它们是可变的，也就是说可以随时添加、删除和修改其中的元素。List的语法是用方括号[]括起来的一系列逗号分隔的值。
+
+下面是一些List的基本操作：
+
+* 创建List
+
+使用方括号[]可以创建一个空的List，也可以在括号中添加值来创建一个包含元素的List。
+
+```python
+my_list = []
+my_list = [1, 2, 3, 4, 5]
+my_list = ["apple", "banana", "cherry"]
+my_list = [1, "apple", True, 2.5]
+```
+
+* 访问List中的元素
+
+可以使用索引来访问List中的元素，索引从0开始，例如访问第一个元素可以使用索引0，访问第二个元素可以使用索引1，以此类推。还可以使用负索引来访问从右边数的元素，例如访问最后一个元素可以使用索引-1。
+
+```python
+my_list = ["apple", "banana", "cherry"]
+print(my_list[0])  # 输出 "apple"
+print(my_list[1])  # 输出 "banana"
+print(my_list[-1]) # 输出 "cherry"
+```
+
+* 修改List中的元素
+
+可以通过索引来修改List中的元素。
+
+```python
+my_list = ["apple", "banana", "cherry"]
+my_list[1] = "orange"
+print(my_list)  # 输出 ["apple", "orange", "cherry"]
+```
+
+* 添加元素到List中
+
+可以使用append()方法将元素添加到List的末尾。
+
+```python
+my_list = ["apple", "banana", "cherry"]
+my_list.append("orange")
+print(my_list)  # 输出 ["apple", "banana", "cherry", "orange"]
+```
+
+* 删除List中的元素
+
+可以使用del关键字或remove()方法删除List中的元素。
+
+```python
+my_list = ["apple", "banana", "cherry"]
+del my_list[1]
+print(my_list)  # 输出 ["apple", "cherry"]
+
+my_list = ["apple", "banana", "cherry"]
+my_list.remove("banana")
+print(my_list)  # 输出 ["apple", "cherry"]
+```
+
+* 切片List
+
+可以使用切片操作符[:]来获取List的一部分，例如获取从第二个元素到第四个元素可以使用[1:3]。
+
+```python
+my_list = ["apple", "banana", "cherry", "orange", "kiwi", "melon", "mango"]
+print(my_list[1:3])    # 输出 ["banana", "cherry"]
+print(my_list[:4])     # 输出 ["apple", "banana", "cherry", "orange"]
+print(my_list[4:])     # 输出 ["kiwi", "melon", "mango"]
+print(my_list[-3:])    # 输出 ["kiwi", "melon", "mango"]
+```
+
+下面示例演示了Python List的基本操作：
+
+```python
+# 创建一个List
+my_list = ["apple", "banana", "cherry"]
+print(my_list)  # 输出 ["apple", "banana", "cherry"]
+
+# 访问List中的元素
+print(my_list[0])  # 输出 "apple"
+print(my_list[1])  # 输出 "banana"
+print(my_list[-1]) # 输出 "cherry"
+
+# 修改List中的元素
+my_list[1] = "orange"
+print(my_list)  # 输出 ["apple", "orange", "cherry"]
+
+# 添加元素到List中
+my_list.append("kiwi")
+print(my_list)  # 输出 ["apple", "orange", "cherry", "kiwi"]
+
+# 删除List中的元素
+del my_list[0]
+print(my_list)  # 输出 ["orange", "cherry", "kiwi"]
+
+my_list.remove("cherry")
+print(my_list)  # 输出 ["orange", "kiwi"]
+
+# 切片List
+my_list = ["apple", "banana", "cherry", "orange", "kiwi", "melon", "mango"]
+print(my_list[1:3])    # 输出 ["banana", "cherry"]
+print(my_list[:4])     # 输出 ["apple", "banana", "cherry", "orange"]
+print(my_list[4:])     # 输出 ["kiwi", "melon", "mango"]
+print(my_list[-3:])    # 输出 ["kiwi", "melon", "mango"]
+```
+
+以上示例中，我们首先创建了一个包含三个元素的List，然后使用索引访问了List中的元素。接着，我们修改了List中的一个元素，添加了一个新元素，并使用两种方法删除了List中的两个元素。最后，我们使用切片操作符[:]来获取List的一部分。
+
+### 解包（List Unpacking）
+
+List 解包是一种将List中的元素解包并分配给多个变量的方法。它可以让您在一行代码中同时为多个变量赋值，而无需逐个指定List中的元素。下面是一个简单的例子：
+
+```python
+my_list = [1, 2, 3]
+a, b, c = my_list
+print(a, b, c)  # 输出 1 2 3
+```
+
+在这个例子中，我们创建了一个包含三个元素的List，然后使用List Unpacking将其解包并分配给三个变量a、b和c。现在，我们可以直接使用这些变量，而无需再引用原始的List。
+
+List Unpacking还可以与星号（*）一起使用，以在一个变量中捕获List中的所有剩余元素。下面是一个例子：
+
+```python
+my_list = [1, 2, 3, 4, 5]
+a, b, *c = my_list
+print(a, b)   # 输出 1 2
+print(c)      # 输出 [3, 4, 5]
+```
+
+在这个例子中，我们使用List Unpacking将List中的前两个元素分配给变量a和b，然后使用星号（*）将其余的元素分配给变量c。现在，变量c将是一个包含剩余元素的List。
+
+最后，List Unpacking还可以用于交换变量的值，而无需使用临时变量。下面是一个例子：
+
+```python
+a = 1
+b = 2
+a, b = b, a
+print(a, b)  # 输出 2 1
+```
+
+在这个例子中，我们使用List Unpacking将变量a和b的值互换，而无需使用额外的变量。
+
+### List 迭代
+
+* 枚举迭代
+
+枚举迭代可以让我们在遍历List时获取到每个元素的索引值，这通常会在需要对List中的元素进行更复杂的操作时非常有用。
+
+使用Python内置的 enumerate 函数可以实现枚举迭代。 enumerate 函数返回一个迭代器对象，每个元素是一个元组，元组的第一个元素是索引值，第二个元素是对应的List元素。
+
+以下是一个简单的枚举迭代的示例代码：
+
+```python
+fruits = ["apple", "banana", "cherry"]
+
+for index, fruit in enumerate(fruits):
+    print(index, fruit)
+```
+
+输出：
+
+```python
+0 apple
+1 banana
+2 cherry
+```
+
+* 迭代器迭代
+
+迭代器是一种对象，它可以在遍历List时逐个返回元素。Python中的所有迭代器都支持 next() 函数和 __iter__() 方法。在Python中，List本身就是一个可迭代对象，因此我们可以直接通过 iter() 函数将其转换为迭代器。
+
+以下是一个简单的迭代器迭代的示例代码：
+
+```python
+fruits = ["apple", "banana", "cherry"]
+iter_fruits = iter(fruits)
+
+while True:
+    try:
+        fruit = next(iter_fruits)
+        print(fruit)
+    except StopIteration:
+        break
+```
+
+输出：
+
+```python
+apple
+banana
+cherry
+```
+
+在这个示例中，我们使用 while 循环和 next() 函数来逐个遍历迭代器 iter_fruits 中的元素，直到 StopIteration 异常被抛出，表明迭代器已经遍历完了List。此时，我们通过 break 语句来跳出循环，结束迭代。
+
+需要注意的是，Python中的 for 循环实际上就是基于迭代器实现的。因此，上面这个例子可以使用 for 循环来进行迭代，也可以得到相同的结果：
+
+```python
+fruits = ["apple", "banana", "cherry"]
+
+for fruit in fruits:
+    print(fruit)
+```
+
+输出：
+
+```python
+apple
+banana
+cherry
+```
+
+无论是使用 for 循环还是自己手动实现迭代器，遍历List的基本思路都是相同的：逐个访问List中的元素，并在需要时执行适当的操作。
+
