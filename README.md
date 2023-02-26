@@ -19,8 +19,6 @@ Python拥有丰富的标准库和第三方库，使其成为许多应用程序�
 
 在安装Python后，您可以使用命令行或其他Python集成开发环境（IDE）来编写和运行Python代码。同时，需要注意Python版本的兼容性，以确保代码可以在您所使用的Python版本中运行。
 
-（B站视频）
-
 ### Python解释器
 
 要使用Python解释器，您可以按照以下步骤进行操作：
@@ -88,8 +86,6 @@ print(result)
 
 这些示例代码只是Python语言的冰山一角。Python拥有非常丰富的库和框架，可以用于各种不同的应用场景，例如Web开发、数据科学、机器学习、人工智能等。需要根据具体的需求选择相应的库和框架进行学习和应用。
 
-（B站视频）
-
 ### 代码编辑器
 
 Python拥有许多开发工具，可以根据不同的需求和偏好进行选择。以下是Python常用的开发工具：
@@ -124,8 +120,6 @@ else:
 
 对于首次接触编程的同学请跟着我们的课程使用Visual Studio Code来完成我们的第一个Python程序。
 
-（B站视频）
-
 ### VS Code Python扩展
 
 以下是一些常用的Visual Studio Code扩展，可以提高Python开发效率：
@@ -139,8 +133,6 @@ else:
 
 以上扩展只是Python开发中的一部分，可以根据自己的需要选择和安装相应的扩展。同时，需要注意安装扩展时要从官方或可信的来源下载和安装，以免遇到安全问题。
 
-（B站视频）
-
 ### Linting Python Code
 
 在Python开发中，代码风格和代码质量的重要性不言而喻。Linting是一种自动化检查代码质量和风格的工具，可以帮助开发者找出代码中的潜在问题，从而提高代码的可读性、可维护性和可重用性。Python开发中常用的Linting工具有以下几种：
@@ -152,8 +144,6 @@ else:
 * Mypy：Mypy是一个Python类型检查工具，可以在代码编写期间捕获类型错误，提高代码的类型安全性。
 
 可以根据自己的需要选择和使用相应的Linting工具。值得注意的是，虽然Linting工具可以检查和纠正一些常见的代码问题，但并不能完全取代代码审查和测试等其他工具和方法。
-
-（B站视频）
 
 ### Python代码的格式及格式化
 
@@ -3533,3 +3523,356 @@ print(s.area())  # Output: 25
 
 如我们所料，这个 Square 对象具有相等的高度和宽度，因此其面积应该等于边长的平方。我们首先创建一个边长为 4 的正方形，计算其面积，然后将其边长更改为 5，再次计算其面积，输出结果与预期相符。
 
+### 抽象基类
+
+Python中的抽象基类(Abstract Base Classes, 简称ABC)是指一个不能被实例化的类，它的作用是为其他类提供一个规范的接口。抽象基类定义了一组方法，子类需要实现这些方法才能被认为是符合规范的。
+
+Python中的abc模块提供了创建抽象基类的工具。我们可以使用 abstractmethod 装饰器来标记抽象方法，这些方法必须在子类中实现。如果子类没有实现这些方法，则在实例化时将引发 TypeError 异常。
+
+下面是一个简单的例子，定义了一个抽象基类 Animal：
+
+```python
+from abc import ABC, abstractmethod
+
+class Animal(ABC):
+    @abstractmethod
+    def make_sound(self):
+        pass
+```
+
+这个类中定义了一个抽象方法 make_sound()。子类需要实现这个方法才能被认为是一个合法的 Animal 类型。
+
+我们可以创建一个 Dog 类，继承自 Animal 并实现 make_sound() 方法：
+
+```python
+class Dog(Animal):
+    def make_sound(self):
+        return "Bark!"
+```
+
+这个类中实现了 make_sound() 方法并返回字符串 "Bark!"。
+
+我们还可以创建一个 Cat 类，继承自 Animal，但它没有实现 make_sound() 方法：
+
+```python
+class Cat(Animal):
+    pass
+```
+
+由于 Cat 类没有实现 make_sound() 方法，我们不能实例化它：
+
+```python
+c = Cat()  # Output: TypeError: Can't instantiate abstract class Cat with abstract methods make_sound
+```
+
+正如我们所料，创建 Cat 对象引发了 TypeError 异常，因为它是抽象基类，不能被实例化。
+
+ABC 的一个重要用途是确保继承体系中的一致性。我们可以使用 isinstance() 和 issubclass() 函数来检查对象是否符合某个类型，这包括检查一个对象是否符合某个抽象基类。例如：
+
+```python
+d = Dog()
+print(isinstance(d, Animal))  # Output: True
+print(issubclass(Dog, Animal))  # Output: True
+
+c = Cat()
+print(isinstance(c, Animal))  # Output: False
+print(issubclass(Cat, Animal))  # Output: True
+```
+
+在这个例子中，我们创建了一个 Dog 对象和一个 Cat 对象，并分别检查它们是否符合 Animal 类型。Dog 对象符合 Animal 类型，因为它继承自 Animal 并实现了 make_sound() 方法。Cat 对象虽然继承自 Animal，但它没有实现 make_sound() 方法，因此不符合 Animal 类型。
+
+### 多态
+
+多态是面向对象编程的一个重要概念，它允许不同的对象以不同的方式响应相同的方法调用。具体来说，多态使得对象能够按照自己的方式实现公共接口，这样就可以在运行时动态地选择调用哪个实现。这种能力使得代码更加灵活、可扩展和易于维护。
+
+在 Python 中，多态可以通过继承和方法重写实现。例如，我们可以定义一个基类 Animal，然后派生出多个子类 Cat、Dog 和 Bird。每个子类都可以重写基类中的方法，以实现自己特定的行为。然后我们可以创建这些子类的实例，并调用基类中定义的方法，因为这些方法已经被子类重写，所以每个子类的实例会以不同的方式响应相同的方法调用。
+
+以下是一个简单的示例，演示了如何在 Python 中实现多态：
+
+```python
+class Animal:
+    def __init__(self, name):
+        self.name = name
+        
+    def make_sound(self):
+        pass
+    
+class Cat(Animal):
+    def make_sound(self):
+        return "Meow"
+    
+class Dog(Animal):
+    def make_sound(self):
+        return "Woof"
+    
+class Bird(Animal):
+    def make_sound(self):
+        return "Chirp"
+
+animals = [Cat("Whiskers"), Dog("Fido"), Bird("Tweety")]
+for animal in animals:
+    print(f"{animal.name}: {animal.make_sound()}")
+```
+
+在上面的示例中，我们定义了一个基类 Animal，其中包含一个构造函数和一个抽象方法 make_sound，该方法在每个子类中被重写以提供不同的实现。然后我们定义了三个子类 Cat、Dog 和 Bird，它们分别重写了 make_sound 方法以提供它们自己的声音。最后，我们创建了一个包含不同类型的动物实例的列表，并遍历列表，调用每个实例的 make_sound 方法以输出它们的声音。由于每个子类重写了基类中的 make_sound 方法，所以每个实例都会以不同的方式响应 make_sound 方法的调用，从而实现了多态。
+
+### 鸭子类型
+
+鸭子类型（Duck Typing）是Python面向对象编程中的一个概念，它关注的是对象的行为而不是类型。它允许你创建灵活和动态的代码，只要对象提供了所需的行为，就可以与不同类型的对象一起使用。
+
+在Python中，鸭子类型通常与多态性结合使用，这允许对象具有多种形式。使用鸭子类型，可以定义一组对象应具有的方法，只要对象具有这些方法，就可以与具有相同方法的任何其他对象交换使用。
+
+以下是一个示例，以说明鸭子类型：
+
+```python
+class Dog:
+    def sound(self):
+        print("Bark")
+
+class Cat:
+    def sound(self):
+        print("Meow")
+
+class Duck:
+    def quack(self):
+        print("Quack")
+
+def make_sound(animal):
+    animal.sound()
+
+dog = Dog()
+cat = Cat()
+duck = Duck()
+
+make_sound(dog) # 输出：Bark
+make_sound(cat) # 输出：Meow
+
+# 这会引发AttributeError，因为Duck没有一个sound方法
+make_sound(duck)
+```
+
+在这个例子中，我们有三个类：Dog，Cat和Duck。Dog和Cat都有一个sound方法，打印出动物发出的声音，而Duck则有一个quack方法。
+
+然后我们定义了一个make_sound函数，它接受一个动物作为参数，并调用它的sound方法。由于Dog和Cat都有一个sound方法，我们可以将这两个类的实例传递给make_sound函数，并获得预期的输出。
+
+但是，当我们将Duck的实例传递给make_sound时，它会引发AttributeError，因为Duck没有一个sound方法。这是因为鸭子类型只检查所需方法的存在，而不检查它们的名称或类型。
+
+### 继承内置类型
+
+在Python中，可以创建一个自定义的类，使其继承内置类如str，float，int等。这样做的好处是可以自定义内置类型的行为。
+
+下面以继承内置类str为例进行演示：
+
+```python
+class MyString(str):
+    def __init__(self, string):
+        self.original_string = string
+
+    def __str__(self):
+        return f"MyString({self.original_string})"
+
+    def reverse(self):
+        return self.original_string[::-1]
+```
+
+在上面的代码中，我们定义了一个名为MyString的类，它继承了内置类str。MyString类具有__init__和__str__方法。其中__init__方法被用来初始化字符串，而__str__方法用于返回一个自定义的字符串表示。
+
+我们还定义了一个名为reverse的方法，它可以返回字符串的反转版本。
+
+现在，我们可以使用MyString类来创建字符串，并调用其中定义的方法：
+
+```python
+s = MyString("Hello World!")
+print(s)  # 输出：MyString(Hello World!)
+print(s.reverse())  # 输出：!dlroW olleH
+```
+
+在上面的示例中，我们创建了一个MyString对象并打印了其字符串表示。然后我们调用了reverse方法，返回了字符串的反转版本。
+
+通过这种方式，我们可以创建自定义的内置类型，从而实现自己想要的行为和功能。
+
+### 数据类
+
+在Python 3.7及以上版本中，引入了一个名为dataclass的装饰器，用于创建数据类（Data Class）。数据类是一个专门用于存储数据的类，它自动为类创建一些方法，比如__init__、repr、__eq__等，使得数据类的创建和使用变得更加简单和方便。
+
+下面我们通过一个例子来演示如何创建数据类：
+
+```python
+from dataclasses import dataclass
+
+@dataclass
+class Person:
+    name: str
+    age: int
+    city: str = "Beijing"
+
+p1 = Person("Alice", 25, "Shanghai")
+p2 = Person("Bob", 30)
+
+print(p1)
+print(p2)
+
+print(p1 == p2)
+```
+
+在上面的代码中，我们使用dataclass装饰器来创建一个名为Person的数据类，它有三个属性：name、age和city，其中city属性设置了默认值为"Beijing"。
+
+我们创建了两个Person对象，并打印它们的值。注意，我们没有定义__init__、__repr__、__eq__等方法，这些方法都是由dataclass自动生成的。
+
+运行上述代码，输出如下：
+
+```python
+Person(name='Alice', age=25, city='Shanghai')
+Person(name='Bob', age=30, city='Beijing')
+False
+```
+
+从输出结果中可以看到，我们创建的Person对象都正常工作，__init__方法正确地初始化了对象的属性，__repr__方法返回了对象的字符串表示，__eq__方法正确地比较了对象的属性值。
+
+通过使用dataclass装饰器，我们可以轻松地创建数据类，从而更加方便地进行数据存储和操作。
+
+## 模块
+
+Python的模块是一个包含Python定义和声明的文件。模块允许您在不同的Python程序之间重用代码，并且可以提供逻辑上组织的代码结构。模块可以包含变量、函数、类等等，可以从其他模块中导入并使用。
+
+### 创建模块
+
+Python的模块是一个包含Python定义和声明的文件。模块允许您在不同的Python程序之间重用代码，并且可以提供逻辑上组织的代码结构。模块可以包含变量、函数、类等等，可以从其他模块中导入并使用。
+
+下面我们来演示如何创建一个Python模块。假设我们有一个名为my_module.py的文件，其中包含一个函数和一个变量：
+
+```python
+# my_module.py
+
+my_variable = "Hello, World!"
+
+def my_function():
+    print("This is my function.")
+```
+
+现在我们可以从另一个Python脚本中导入并使用这个模块中的函数和变量。例如，我们可以创建一个名为main.py的文件来导入和使用这个模块：
+
+```python
+# main.py
+
+import my_module
+
+print(my_module.my_variable) # 输出 "Hello, World!"
+my_module.my_function() # 输出 "This is my function."
+```
+
+在这里，我们使用import关键字来导入my_module模块。然后，我们可以通过my_module前缀访问该模块中的变量和函数。
+
+需要注意的是，Python会在默认的模块搜索路径中查找要导入的模块。可以使用sys.path来查看默认搜索路径：
+
+```python
+import sys
+
+print(sys.path)
+```
+
+如果需要导入不在默认搜索路径中的模块，可以使用sys.path.append()将路径添加到搜索路径中。
+
+除了使用import关键字之外，还可以使用from关键字来导入模块中的指定部分。例如，我们可以在main.py中使用以下代码导入my_variable变量：
+
+```python
+from my_module import my_variable
+
+print(my_variable) # 输出 "Hello, World!"
+```
+
+这样做可以避免在使用变量时必须写出完整的模块名称。需要注意的是，如果导入多个变量，函数或类，可以使用逗号分隔它们：
+
+```python
+from my_module import var1, var2, func1, class1
+```
+
+总的来说，Python的模块技术为我们提供了一种有效的代码组织方式，使我们可以重用和共享代码，并将代码分离到逻辑上独立的单元中。
+
+### Python编译文件
+
+在Python中，当模块被导入时，Python解释器会将源代码编译为Python字节码，并将其保存在以 .pyc 结尾的文件中。这个过程被称为编译。
+
+当模块再次被导入时，解释器会首先检查是否存在相应的 .pyc 文件，如果存在，解释器会加载 .pyc 文件而不是重新编译源代码。这可以提高模块导入的速度。
+
+有时候，解释器会将编译后的字节码保存在 .pyc 文件中，并添加一个后缀 .cpython-xx，其中 xx 是Python的版本号。这是为了确保在不同版本的Python中，编译后的字节码可以正确地加载。
+
+需要注意的是，如果源代码发生变化，.pyc 文件将会过期，解释器将重新编译源代码并生成新的 .pyc 文件。这可以确保模块的最新版本被正确地加载。
+
+在大多数情况下，开发者无需关心 .pyc 文件，因为Python解释器会自动处理它们。
+
+### 模块搜索路径
+
+在 Python 中，当我们导入一个模块时，Python 解释器会按照一定的顺序来搜索模块的位置，这个搜索路径被称为模块搜索路径（Module Search Path）。在 Python 中，可以通过 sys 模块的 path 属性来查看当前的模块搜索路径。模块搜索路径通常包括以下位置：
+
+* 当前脚本所在目录
+* 标准库目录（例如 /usr/lib/python3.8/）
+* 环境变量 PYTHONPATH 指定的目录（如果有）
+* 默认安装位置（例如 /usr/local/lib/python3.8/dist-packages/）
+
+我们可以通过修改 sys.path 来动态地添加或删除搜索路径。以下是一个示例代码：
+
+```python
+import sys
+
+# 查看当前模块搜索路径
+print(sys.path)
+
+# 在当前模块搜索路径中添加一个目录
+sys.path.append('/path/to/my/module')
+
+# 导入自定义模块
+import my_module
+```
+
+在上述代码中，我们首先使用 print(sys.path) 输出了当前的模块搜索路径。然后，我们通过 sys.path.append() 方法添加了一个目录到模块搜索路径中。最后，我们通过 import 语句导入了自定义的模块 my_module。
+
+需要注意的是，尽管可以通过修改模块搜索路径来动态地添加或删除模块位置，但这并不是一种推荐的方式。通常情况下，最好将所有的模块放在 Python 解释器默认搜索路径中的某个位置，并避免修改模块搜索路径，以避免出现意外的问题。
+
+### 包
+
+在Python中，包是一种组织模块的层次结构，它们被存储在文件夹中，并且它们之间存在相对导入的关系。包的主要目的是为了组织大型代码库，以便于维护和使用。
+
+一个包实际上就是一个包含__init__.py文件的文件夹，它可以包含子包和模块。__init__.py文件可以为空，也可以包含初始化代码、变量、函数等。
+
+为了演示包的使用，我们创建一个名为"mypackage"的包，它包含一个名为"module1"的模块和一个名为"subpackage"的子包，其中包含一个名为"module2"的模块。
+
+首先，我们在工作目录下创建一个名为"mypackage"的文件夹，并在该文件夹中创建一个名为"init.py"的空文件。然后，我们在该文件夹中创建一个名为"module1.py"的文件，其中包含以下代码：
+
+```python
+def hello():
+    print("Hello from module1")
+```
+
+接下来，我们在该文件夹中创建一个名为"subpackage"的文件夹，并在其中创建一个名为"init.py"的空文件。然后，在该文件夹中创建一个名为"module2.py"的文件，其中包含以下代码：
+
+```python
+def world():
+    print("World from module2")
+```
+
+现在，我们可以在Python中使用这些模块和包。为此，我们可以使用import语句。在我们的示例中，要导入module1，可以使用以下代码：
+
+```python
+import mypackage.module1
+
+mypackage.module1.hello()
+```
+
+这将打印出"Hello from module1"。要导入module2，可以使用以下代码：
+
+```python
+from mypackage.subpackage import module2
+
+module2.world()
+```
+
+这将打印出"World from module2"。
+
+请注意，在__init__.py文件中定义的代码可以在导入包时自动执行。例如，如果我们在mypackage的__init__.py文件中添加以下代码：
+
+```python
+print("Initializing mypackage")
+```
+
+然后，当我们导入mypackage时，将打印出"Initializing mypackage"。
