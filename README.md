@@ -2992,6 +2992,31 @@ print(person1.age)   # 输出: 25
 
 在这个示例中，我们创建了一个名为person1的新的Person对象，姓名为"Alice"，年龄为25岁。我们可以使用点符号访问对象的name和age属性。
 
+### 实例方法
+
+在Python中，实例方法是绑定到类的实例的方法。实例方法在类定义内部定义，并将self参数作为它们的第一个参数，它指的是调用该方法的实例。
+
+实例方法可以访问和修改实例的状态，这意味着它们可以访问实例变量并修改它们。实例方法是Python类中最常见的方法类型，因为它们用于定义特定于类实例的行为。
+
+以下是在Python类中定义实例方法的示例：
+
+```python
+class MyClass:
+    def __init__(self, x):
+        self.x = x
+        
+    def increment(self, y):
+        self.x += y
+
+obj = MyClass(5)
+obj.increment(3)
+print(obj.x)  # 输出：8
+```
+
+在这个例子中，increment()是一个实例方法，除了self参数之外还接受一个参数y。它通过将y的值加到实例变量x上来修改实例变量。
+
+要调用实例方法，需要创建类的实例，然后在该实例上调用该方法，如上例所示。当调用实例方法时，Python会自动将实例（self）作为第一个参数传递，因此不需要显式传递它。
+
 ### 类方法
 
 在Python中，类方法是与类关联的方法，而不是与类的实例关联的方法。类方法使用@classmethod装饰器定义。与实例方法不同，类方法的第一个参数是类本身，通常用cls表示。
@@ -3056,4 +3081,99 @@ print(Calculator.multiply(3, 5))  # 输出: 15
 
 在这个示例中，我们使用Calculator类名来调用静态方法add和multiply，并将它们的结果打印出来。
 
-is there differences between python class method and static method?
+### 类方法VS静态方法
+
+类方法和静态方法都是在类级别而不是实例级别定义的方法，这意味着它们可以在类本身而不是类的实例上调用。但是，它们有不同的用途。
+
+类方法是绑定到类而不是类的实例的方法。它以类作为第一个参数，并通常用于修改类或创建类的新实例。类方法使用@classmethod装饰器创建。
+
+例如：
+
+```python
+class MyClass:
+    x = 0
+    
+    @classmethod
+    def set_x(cls, value):
+        cls.x = value
+        
+MyClass.set_x(5)
+print(MyClass.x)  # 输出：5
+```
+
+在这个例子中，set_x()是一个类方法，它以类（cls）作为它的第一个参数，并将类变量x设置为给定的值。
+
+另一方面，静态方法是一个不依赖于类或类的实例的方法。它使用@staticmethod装饰器定义，并且不需要任何特殊的第一个参数（既不是self也不是cls）。
+
+例如：
+
+```python
+class MyClass:
+    @staticmethod
+    def my_function(x, y):
+        return x + y
+
+print(MyClass.my_function(2, 3))  # 输出：5
+```
+
+在这个例子中，my_function()是一个静态方法，它接受两个参数并返回它们的和。它不依赖于类或实例的任何状态。
+
+总之，类方法用于修改类或创建类的新实例，而静态方法用于方法不依赖于类或实例的情况下。
+
+### 魔术方法
+
+在Python中，魔术方法（Magic Methods，也称为双下划线方法）是特殊的方法，允许类定义如何响应某些操作或行为。这些方法以双下划线（__）作为前缀和后缀来标识，例如`__init__`和`__str__`。
+
+Python会在响应某些操作或行为时隐式地调用魔术方法，例如创建类的新实例，使用+运算符将两个实例相加，或使用.运算符访问实例的属性。
+
+以下是常用的魔术方法及其用途的一些示例：
+
+* `__init__`(self, ...) - 当创建类的新实例时，将调用此方法，并用于初始化实例的属性。
+* `__str__`(self) - 当将实例传递给str()函数或在实例上调用print()函数时，将调用此方法。它应该返回实例的字符串表示形式。
+* `__add__`(self, other) - 当使用+运算符将类的两个实例相加时，将调用此方法。它应该返回表示两个实例之和的新实例。
+* `__eq__`(self, other) - 当使用==运算符比较类的两个实例是否相等时，将调用此方法。如果实例相等，则应返回True，否则返回False。
+* `__getattr__`(self, name) - 当访问实例的属性不存在时，将调用此方法。它允许您定义处理缺少属性的自定义行为。
+
+通过在类中定义魔术方法，可以自定义类的行为，使其更加强大和灵活。例如：
+
+当我们定义一个类时，可以通过定义__str__和__add__魔术方法来自定义该类的字符串表示和加法操作。
+
+下面是一个示例类Point，它表示二维平面上的点，包含x和y两个属性：
+
+```python
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __str__(self):
+        return f"Point({self.x}, {self.y})"
+
+    def __add__(self, other):
+        if isinstance(other, Point):
+            return Point(self.x + other.x, self.y + other.y)
+        else:
+            return NotImplemented
+```
+
+在这个类中，__str__方法返回了一个字符串，它包含了该点的x和y坐标。而__add__方法定义了加法操作，如果加数是一个Point实例，则返回一个新的Point实例，该实例的x和y坐标分别是两个Point实例对应坐标的和。
+
+我们可以使用下面的代码来创建两个Point实例，并将它们相加：
+
+```python
+p1 = Point(1, 2)
+p2 = Point(3, 4)
+p3 = p1 + p2
+print(p3)
+```
+
+输出结果为：
+
+```python
+Point(4, 6)
+```
+
+可以看到，我们自定义的__add__方法成功地将两个Point实例相加，得到了一个新的Point实例。
+
+另外，如果我们尝试将一个Point实例和一个非Point实例相加，__add__方法将返回NotImplemented，这意味着该操作不被支持。这是因为__add__方法只定义了两个Point实例相加的情况，而对于其他情况，Python将尝试调用其他对象的__add__方法，如果该方法也返回NotImplemented，则会引发TypeError异常。因此，为了避免这种情况，我们应该在__add__方法中明确地检查加数的类型，并返回NotImplemented以指示该操作不被支持。
+
