@@ -3177,3 +3177,359 @@ Point(4, 6)
 
 另外，如果我们尝试将一个Point实例和一个非Point实例相加，__add__方法将返回NotImplemented，这意味着该操作不被支持。这是因为__add__方法只定义了两个Point实例相加的情况，而对于其他情况，Python将尝试调用其他对象的__add__方法，如果该方法也返回NotImplemented，则会引发TypeError异常。因此，为了避免这种情况，我们应该在__add__方法中明确地检查加数的类型，并返回NotImplemented以指示该操作不被支持。
 
+### 对象比较
+
+在Python中，可以通过实现魔术方法来实现对象的比较。比较运算符包括等于(`==`)、不等于(`!=`)、小于(`<`)、小于等于(`<=`)、大于(`>`)和大于等于(`>=`)。
+
+下面是一些常用的比较魔术方法：
+
+__eq__(self, other)：实现等于运算符(`==`)，当两个对象相等时返回True，否则返回False。
+__ne__(self, other)：实现不等于运算符(`!=`)，当两个对象不相等时返回True，否则返回False。
+__lt__(self, other)：实现小于运算符(`<`)，当一个对象小于另一个对象时返回True，否则返回False。
+__le__(self, other)：实现小于等于运算符(`<=`)，当一个对象小于或等于另一个对象时返回True，否则返回False。
+__gt__(self, other)：实现大于运算符(`>`)，当一个对象大于另一个对象时返回True，否则返回False。
+__ge__(self, other)：实现大于等于运算符(`>=`)，当一个对象大于或等于另一个对象时返回True，否则返回False。
+其中，self代表当前对象，other代表要比较的对象。这些魔术方法应该返回一个布尔值，即True或False。
+
+下面是一个示例类Person，它包含姓名和年龄两个属性：
+
+```python
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def __eq__(self, other):
+        if isinstance(other, Person):
+            return self.name == other.name and self.age == other.age
+        else:
+            return False
+
+    def __lt__(self, other):
+        if isinstance(other, Person):
+            return self.age < other.age
+        else:
+            return NotImplemented
+```
+
+在这个类中，`__eq__`方法实现了等于运算符(`==`)，它检查两个对象的姓名和年龄是否相等。`__lt__`方法实现了小于运算符(`<`)，它检查一个对象的年龄是否小于另一个对象的年龄。
+
+我们可以使用下面的代码来创建两个Person实例，并比较它们的大小：
+
+```python
+p1 = Person("Alice", 25)
+p2 = Person("Bob", 30)
+
+if p1 < p2:
+    print(f"{p1.name} is younger than {p2.name}")
+else:
+    print(f"{p1.name} is older than or equal to {p2.name}")
+
+if p1 == p2:
+    print(f"{p1.name} is the same age as {p2.name}")
+else:
+    print(f"{p1.name} is not the same age as {p2.name}")
+```
+
+输出结果为：
+
+```python
+Alice is younger than Bob
+Alice is not the same age as Bob
+```
+
+可以看到，我们自定义的__lt__方法成功地比较了两个Person实例的年龄，并输出了正确的结果。
+
+需要注意的是，如果要比较的两个对象类型不同，例如一个Person对象和一个str对象，那么比较魔术方法应该返回NotImplemented，以便让Python尝试使用反向比较。如果反向比较也不可行，那么应该返回False，以表示两个对象不相等。
+
+除了上面提到的魔术方法，还有其他的魔术方法可以用于比较，例如__cmp__方法可以在Python2中使用，但在Python3中已经被弃用。在实现对象比较时，应该根据需要选择合适的比较魔术方法。
+
+总之，使用魔术方法可以很方便地实现对象的比较，使得我们可以像比较基本数据类型一样比较自定义类型的对象。
+
+### 私有成员
+
+在Python中，可以使用双下划线__来定义私有成员（属性和方法），即它们只能在类内部访问，无法从类的外部直接访问。这种封装性保护了类的数据，避免了意外的错误修改或访问，同时也提高了类的安全性和可维护性。
+
+下面是一个使用私有成员的示例代码：
+
+```python
+class Person:
+    def __init__(self, name, age):
+        self.__name = name
+        self.__age = age
+
+    def get_name(self):
+        return self.__name
+
+    def set_name(self, name):
+        self.__name = name
+
+    def get_age(self):
+        return self.__age
+
+    def set_age(self, age):
+        self.__age = age
+
+p = Person("John", 30)
+
+# 访问公有方法来访问私有成员
+print(p.get_name())   # 输出John
+print(p.get_age())    # 输出30
+
+# 不能直接访问私有成员
+# print(p.__name)     # 报错 AttributeError: 'Person' object has no attribute '__name'
+
+# 不能直接修改私有成员
+# p.__age = 40        # 报错 AttributeError: 'Person' object has no attribute '__age'
+
+# 通过公有方法来修改私有成员
+p.set_name("Bob")
+p.set_age(40)
+print(p.get_name())   # 输出Bob
+print(p.get_age())    # 输出40
+```
+
+在上面的代码中，__name和__age是私有成员，无法从类的外部直接访问和修改。可以通过公有方法get_name和get_age来获取私有成员的值，通过公有方法set_name和set_age来设置私有成员的值。这样就保护了类的数据，同时也提供了一种可控的方式来访问和修改私有成员。
+
+### 属性
+
+在Python中，属性（property）是一种将访问方法（getter）和设置方法（setter）封装起来的机制，使得外部代码可以像访问公有属性一样来访问和修改类的私有成员。使用属性可以让代码更加简洁、易读，同时也提高了类的可扩展性和可维护性。
+
+下面是一个使用属性的示例代码：
+
+```python
+class Person:
+    def __init__(self, name, age):
+        self.__name = name
+        self.__age = age
+
+    @property
+    def name(self):
+        return self.__name
+
+    @name.setter
+    def name(self, name):
+        self.__name = name
+
+    @property
+    def age(self):
+        return self.__age
+
+    @age.setter
+    def age(self, age):
+        self.__age = age
+
+p = Person("John", 30)
+
+# 使用属性访问和修改私有成员
+print(p.name)        # 输出John
+p.name = "Bob"
+print(p.name)        # 输出Bob
+
+print(p.age)         # 输出30
+p.age = 40
+print(p.age)         # 输出40
+```
+
+在上面的代码中，使用了@property装饰器来定义属性的访问方法，使用@name.setter和@age.setter装饰器来定义属性的设置方法。这样，外部代码就可以像访问公有属性一样来访问和修改类的私有成员。
+
+需要注意的是，在使用属性时，属性名和私有成员名一般是一致的，这样可以让代码更加清晰易懂。同时，为了避免属性名和其他方法或变量名冲突，一般使用下划线开头来命名私有成员，如__name和__age。
+
+### 继承
+
+Python中的类继承是一种面向对象编程的基本概念，它允许我们定义一个类，使其从一个已经存在的类中继承属性和方法，并在此基础上添加新的属性和方法，从而实现代码的复用和扩展。
+
+下面是一个简单的Python类继承的示例代码：
+
+```python
+# 定义一个基类
+class Animal:
+    def __init__(self, name):
+        self.name = name
+
+    def speak(self):
+        print(f"{self.name} is speaking")
+
+# 定义一个子类，继承自Animal类
+class Dog(Animal):
+    def __init__(self, name, breed):
+        super().__init__(name)
+        self.breed = breed
+
+    def bark(self):
+        print(f"{self.name} is barking")
+
+# 创建一个Dog类的实例，并调用其方法
+d = Dog("Tommy", "Labrador")
+d.speak()  # 输出Tommy is speaking
+d.bark()   # 输出Tommy is barking
+```
+
+在上面的代码中，我们定义了一个基类Animal和一个子类Dog。Dog类继承了Animal类的属性和方法，同时又添加了自己的属性和方法。在Dog类的构造函数中，我们调用了基类Animal的构造函数，并使用super()函数来获取基类的实例。
+
+通过继承，Dog类不仅继承了Animal类的speak()方法，而且还添加了自己的bark()方法。这样，我们可以在Dog类的实例上调用这两个方法，以表达不同的行为。
+
+需要注意的是，在类继承中，子类可以覆盖父类的属性和方法，从而实现自己的特殊行为。同时，子类还可以通过调用父类的方法来实现代码的复用。在上面的代码中，我们就通过super()函数来调用了父类的构造函数，从而实现了子类的初始化。
+
+### 多继承
+
+Python中的类多继承是一种面向对象编程技术，它允许一个子类同时继承多个父类的属性和方法，从而实现代码的复用和扩展。在Python中，类多继承的语法如下所示：
+
+```python
+class SubClass(BaseClass1, BaseClass2, ...):
+    ...
+```
+
+其中，SubClass是子类的名称，BaseClass1、BaseClass2等是父类的名称，用逗号分隔。
+
+多继承的优点是可以充分利用已有的代码资源，从而减少代码的重复性。通过多继承，子类可以继承多个父类的属性和方法，并将它们组合起来，以满足子类的需求。例如，在一个GUI程序中，我们可以定义一个父类来实现基本的界面功能，同时又定义一些其他的父类来实现不同的功能，然后通过多继承来组合它们，以实现更复杂的功能。
+
+然而，多继承也有其缺点。首先，多继承会增加代码的复杂度，使得程序难以理解和维护。其次，多继承可能导致命名冲突，从而使得代码不可用或产生错误。因此，在使用多继承时，我们需要特别小心，避免出现不必要的问题。
+
+下面是一个简单的Python类多继承的示例代码：
+
+```python
+class A:
+    def method_a(self):
+        print("A.method_a")
+
+class B:
+    def method_b(self):
+        print("B.method_b")
+
+class C(A, B):
+    def method_c(self):
+        print("C.method_c")
+
+c = C()
+c.method_a()  # 输出A.method_a
+c.method_b()  # 输出B.method_b
+c.method_c()  # 输出C.method_c
+```
+
+在上面的代码中，我们定义了三个类A、B和C。类A和类B分别实现了自己的方法method_a和method_b，而类C则继承了类A和类B的方法，并且还添加了自己的方法method_c。在类C的实例上，我们可以调用它继承的方法和自己的方法，以表达不同的行为。
+
+### Object对象
+
+在Python中，object是所有类的基类。它是Python的内置类型之一，表示所有对象的共同特性和行为。所有的Python对象都是object的实例，包括整数、字符串、列表、元组、函数、类等等。
+
+object对象有一些默认的特殊方法，比如__init__、__str__、__repr__、__eq__等等，这些方法可以被子类继承和覆盖，以满足子类的需求。此外，object对象还有一些默认的属性，比如__class__、__doc__、__module__等等，这些属性可以被子类继承和访问，以提供更多的信息和功能。
+
+下面是一个简单的object对象的示例代码：
+
+```python
+class MyObject(object):
+    def __init__(self, value):
+        self.value = value
+    
+    def __str__(self):
+        return f"MyObject({self.value})"
+    
+    def __repr__(self):
+        return f"MyObject({self.value})"
+    
+    def __eq__(self, other):
+        if isinstance(other, MyObject):
+            return self.value == other.value
+        else:
+            return False
+
+obj1 = MyObject(1)
+obj2 = MyObject(2)
+obj3 = MyObject(1)
+
+print(obj1)    # 输出MyObject(1)
+print(repr(obj2))  # 输出MyObject(2)
+print(obj1 == obj3)  # 输出True
+print(obj1.__class__)  # 输出<class '__main__.MyObject'>
+```
+
+在上面的代码中，我们定义了一个名为MyObject的类，它继承了object对象，并覆盖了它的__init__、__str__、__repr__和__eq__方法。在这些方法中，我们实现了创建对象、打印对象、表示对象和比较对象的功能。然后，我们创建了三个MyObject的实例，并分别打印它们的值、表示和比较结果。最后，我们访问了一个MyObject对象的__class__属性，以获取它所属的类的信息。
+
+需要注意的是，在Python 3.x中，object类可以省略不写。因此，我们可以将class MyObject(object)简化为class MyObject，以提高代码的可读性和简洁性。
+
+### 方法重写
+
+在Python中，方法重写（Method Overriding）是一种面向对象编程技术，它允许子类定义与父类同名的方法，以覆盖或改变父类的默认实现。通过方法重写，子类可以继承父类的方法和属性，并根据自己的需要进行修改或扩展，从而实现更加灵活和适应性强的功能。
+
+方法重写的实现非常简单，只需要在子类中重新定义与父类同名的方法，并覆盖或改变它的实现即可。当子类调用这个方法时，Python会自动选择它自己的方法，而不是父类的方法。如果子类没有定义这个方法，Python会继续向上查找父类，直到找到一个合适的方法为止。
+
+下面是一个简单的方法重写的例子：
+
+```python
+class Animal:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+    
+    def say_hello(self):
+        print(f"{self.name} says hello!")
+    
+    def eat(self):
+        print(f"{self.name} is eating something.")
+
+class Cat(Animal):
+    def __init__(self, name, age, color):
+        super().__init__(name, age)
+        self.color = color
+    
+    def say_hello(self):
+        print(f"{self.name} says meow!")
+    
+    def catch_mouse(self):
+        print(f"{self.name} is catching a mouse.")
+```
+
+在上面的代码中，我们定义了一个名为Animal的父类和一个名为Cat的子类。父类中有两个方法say_hello和eat，它们分别表示动物打招呼和进食的行为。子类中也有一个方法say_hello，它重写了父类的say_hello方法，并改变了动物打招呼的方式。此外，子类中还新增了一个方法catch_mouse，它表示猫抓老鼠的行为。
+
+在子类中重写方法时，我们可以使用super()函数来调用父类的方法，并在它的基础上进行修改或扩展。在上面的例子中，我们使用super().__init__(name, age)调用了父类的构造函数，并传递了name和age参数。这样，子类就可以继承父类的属性，并在此基础上增加自己的属性。
+
+下面是一个使用上面定义的Animal和Cat类的示例代码：
+
+```python
+animal = Animal("Tom", 3)
+animal.say_hello()  # 输出Tom says hello!
+animal.eat()  # 输出Tom is eating something.
+
+cat = Cat("Kitty", 2, "white")
+cat.say_hello()  # 输出Kitty says meow!
+cat.eat()  # 输出Kitty is eating something.
+cat.catch_mouse()  # 输出Kitty is catching a mouse.
+```
+
+当一个子类重写了父类的方法时，我们也可以在子类的方法中使用 super() 函数来调用父类的方法。这在我们想保留父类某些行为的同时修改某些行为时非常有用。
+
+例如，我们可以创建一个 Rectangle 类和一个 Square 类，Square 类继承自 Rectangle 类，并重写了 set_dimensions() 方法以确保该对象的高度和宽度相等。
+
+```python
+class Rectangle:
+    def __init__(self, height, width):
+        self.height = height
+        self.width = width
+
+    def set_dimensions(self, height, width):
+        self.height = height
+        self.width = width
+
+    def area(self):
+        return self.height * self.width
+
+class Square(Rectangle):
+    def set_dimensions(self, side_length):
+        super().set_dimensions(side_length, side_length)
+```
+
+在这个例子中，Square 类重写了 set_dimensions() 方法并使用 super() 调用了父类的方法，将传递的值同时分配给高度和宽度。
+
+我们可以通过以下代码测试这个类：
+
+```python
+s = Square(4, 4)
+print(s.area())  # Output: 16
+
+s.set_dimensions(5)
+print(s.area())  # Output: 25
+```
+
+如我们所料，这个 Square 对象具有相等的高度和宽度，因此其面积应该等于边长的平方。我们首先创建一个边长为 4 的正方形，计算其面积，然后将其边长更改为 5，再次计算其面积，输出结果与预期相符。
+
