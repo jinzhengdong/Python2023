@@ -1,4 +1,4 @@
-# Python Programming Language
+# Python编程语言
 
 * [语言教程](https://github.com/jinzhengdong/Python2023/blob/main/Python.md)
 * [作业](https://github.com/jinzhengdong/Python2023/blob/main/%E4%BD%9C%E4%B8%9A.md)
