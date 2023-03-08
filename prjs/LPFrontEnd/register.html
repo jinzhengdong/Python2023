@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://cdn.staticfile.org/layui/2.5.7/css/layui.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/layui/2.5.7/layui.min.js"></script>
+</head>
+<body>
+    <div class="layui-container" style="margin-top: 30px;">
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-col-md-offset3">
+                <div class="layui-card">
+                    <div class="layui-card-header">Register</div>
+                    <div class="layui-card-body">
+                        <form class="layui-form" lay-filter="register-form">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">Username</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="username" lay-verify="required" placeholder="Enter username"
+                                           autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">Password</label>
+                                <div class="layui-input-block">
+                                    <input type="password" name="password" lay-verify="required" placeholder="Enter password"
+                                           autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-input-block">
+                                    <button class="layui-btn" lay-submit lay-filter="register-form">Register</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        layui.use(['form', 'layer'], function () {
+            var form = layui.form;
+            var layer = layui.layer;
+    
+            // 监听表单提交事件
+            form.on('submit(register-form)', function (data) {
+                // 发起注册请求
+                $.ajax({
+                    url: '/register',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data.field),
+                    success: function (res) {
+                        layer.msg(res.message);
+                        // 注册成功后跳转到登录页面
+                        window.location.href = '/login.html';
+                    },
+                    error: function (xhr, status, error) {
+                        layer.msg(xhr.responseJSON.message);
+                    }
+                });
+    
+                return false; // 阻止表单提交
+            });
+        });
+    </script>
+</body>
+</html>
